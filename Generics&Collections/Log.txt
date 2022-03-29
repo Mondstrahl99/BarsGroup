@@ -1,0 +1,9 @@
+[Info]:[Int32]:info from localFileLogger
+[Warning]:[Int32]:warning from localFileLogger
+[Error]:[Int32]:error from localFileLogger.Value does not fall within the expected range.
+[Info]:[String]:info from localFileLogger1
+[Warning]:[String]:warning from localFileLogger1
+[Error]:[String]:error from localFileLogger1.Operation caused a stack overflow.
+[Info]:[Double]:info from localFileLogger2
+[Warning]:[Double]:warning from localFileLogger2
+[Error]:[Double]:error from localFileLogger2.Attempted to divide by zero.
