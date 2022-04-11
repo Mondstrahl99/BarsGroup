@@ -30,14 +30,16 @@ while (true)
     Console.ResetColor();
     
     var arguments = listOfArguments.ToArray();
-
-    (new Thread(CreateThread)
+    
+    (new Thread(ProcessRequest)
     {
         IsBackground = true
-    }).Start(Guid.NewGuid().ToString("D"));
+    }).Start();
     
-    void CreateThread(object? guidQuery)
+    void ProcessRequest()
     {
+        var guidQuery = Guid.NewGuid().ToString("D");
+
         try
         {
             Console.WriteLine($"Было отправлено сообщение '{message}'. Присвоен идентификатор {guidQuery}");
