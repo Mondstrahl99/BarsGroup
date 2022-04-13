@@ -4,6 +4,7 @@ Console.WriteLine("Приложение запущено.");
 
 while (true)
 {
+    Console.ResetColor();
     Console.WriteLine("Введите текст запроса для отправки. Для выхода введите /exit");
     Console.ForegroundColor = ConsoleColor.Red;
     
@@ -27,23 +28,18 @@ while (true)
         Console.ForegroundColor = ConsoleColor.Red;
     }
     
-    Console.ResetColor();
-    
     var arguments = listOfArguments.ToArray();
-    
-    (new Thread(ProcessRequest)
-    {
-        IsBackground = true
-    }).Start();
-    
-    void ProcessRequest()
-    {
-        var guidQuery = Guid.NewGuid().ToString("D");
 
+    ThreadPool.QueueUserWorkItem(ProcessRequest, new RequestContext(message!, arguments!));
+   
+    void ProcessRequest(object? requestContext)
+    {
+        if (requestContext is not RequestContext request) return;
+        var guidQuery = Guid.NewGuid().ToString("D");
         try
         {
-            Console.WriteLine($"Было отправлено сообщение '{message}'. Присвоен идентификатор {guidQuery}");
-            string guidAnswer = (new DummyRequestHandler()).HandleRequest(message!, arguments!);
+            Console.WriteLine($"Было отправлено сообщение '{request.Message}'. Присвоен идентификатор {guidQuery}");
+            string guidAnswer = (new DummyRequestHandler()).HandleRequest(request.Message,request.Arguments);
             Console.WriteLine($"Сообщение с идентификатором {guidQuery} получило ответ - {guidAnswer}");
         }
         catch(Exception e)
